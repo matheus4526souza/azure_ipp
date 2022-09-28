@@ -1,0 +1,7 @@
+python-dotenv
+azure-identity
+azure-storage-file-datalake
+azure-cli
+pandas
+tqdm
+pip-system-certs
