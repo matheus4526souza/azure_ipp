@@ -5,3 +5,5 @@ azure-cli
 pandas
 tqdm
 pip-system-certs
+coverage
+pytest
