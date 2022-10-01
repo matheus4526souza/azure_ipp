@@ -14,4 +14,8 @@ class TestAzureLib(unittest.TestCase):
         c = main.AzureBlob(url=os.path.join(path, 'testing/test_parquet.parquet'))
         c.upload(file=self.df, overwrite=True)
         self.assertTrue(c.exists())
-    
+        path = get_env('MAIN_DATALAKE_abfs')
+        c = main.AzureBlob(url=os.path.join(path, 'testing/test_parquet_adfs.parquet'))
+        c.upload(file=self.df, overwrite=True)
+        self.assertTrue(c.exists())
+        self.assertTrue(c.get_size() > 0)

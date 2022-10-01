@@ -109,14 +109,11 @@ class AzureBlob:
         file_client, _, _ = self.storage_client()
         return file_client.download_file().readall()
     
-    def read_download(self) -> pd.DataFrame:
-        return
-    
     def get_size(self):
         file_client, _, _ = self.storage_client()
         file_client = file_client.get_file_properties()
         return round(file_client.size/1.049e6, 2)
-    
+
     def exists(self) -> bool:
         file_client, _, _ = self.storage_client()
         return file_client.exists()
