@@ -19,3 +19,6 @@ class TestAzureLib(unittest.TestCase):
         c.upload(file=self.df, overwrite=True)
         self.assertTrue(c.exists())
         self.assertTrue(c.get_size() > 0)
+        c_down = c.download()
+        c_down = pd.read_parquet(c_down)
+        self.assertTrue(c_down.equals(self.df))

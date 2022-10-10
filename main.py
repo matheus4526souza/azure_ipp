@@ -2,7 +2,7 @@
 
 from dataclasses import dataclass
 import os
-from typing import Callable, Tuple, Union
+from typing import Tuple, Union
 import pandas as pd
 from azure.storage.filedatalake import (DataLakeServiceClient,
                                         DataLakeFileClient,
@@ -12,7 +12,7 @@ from azure.identity import DefaultAzureCredential
 from dotenv import load_dotenv
 import threading, time
 import tqdm
-from io import BytesIO, StringIO
+from io import BytesIO
 
 from utils.utils import get_env
 
@@ -97,12 +97,12 @@ class AzureBlob:
 
     def upload(self, 
                file: Union[bytes, pd.DataFrame], 
-               overwrite: bool=True):
+               overwrite: bool=True, *args, **kwargs) -> None:
         if not isinstance(file, bytes):
             if isinstance(file, pd.DataFrame):
                 file = file.to_records().tobytes()
         file_client, _, _ = self.storage_client()
-        file_client.upload_data(data=file, overwrite=overwrite) #type: ignore
+        file_client.upload_data(data=file, overwrite=overwrite, *args, **kwargs) #type: ignore
         return
 
     def download(self) -> pd.DataFrame:
@@ -122,4 +122,5 @@ class AzureBlob:
 df = pd.read_parquet('/home/blue_helmet/projects/azure/azure_lib/pandas_false_data.parquet')
 path = get_env('MAIN_DATALAKE')
 a = AzureBlob(url = os.path.join(path, 'testing_folder/test.parquet'))
+a_file = a.download()
 # a.upload(file=df.to_parquet(), overwrite=True)
